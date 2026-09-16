@@ -1,0 +1,58 @@
+import { Kategori } from "@/types/product";
+
+export const initialCategories: Kategori[] = [
+  {
+    id: "kat-1",
+    kode: "KAT-PEL",
+    nama: "Pelumas & Cairan",
+    deskripsi: "Oli mesin, oli transmisi matic, coolant radiator, dan minyak rem",
+    jumlahItem: 4,
+    status: "Aktif",
+    createdAt: "2026-01-10",
+  },
+  {
+    id: "kat-2",
+    kode: "KAT-REM",
+    nama: "Sistem Pengereman",
+    deskripsi: "Kampas rem depan/belakang, brake pad, minyak rem & disc rotor",
+    jumlahItem: 3,
+    status: "Aktif",
+    createdAt: "2026-01-10",
+  },
+  {
+    id: "kat-3",
+    kode: "KAT-MSN",
+    nama: "Sistem Pembakaran & Mesin",
+    deskripsi: "Busi standar & iridium, filter oli mesin, paking cylinder head",
+    jumlahItem: 3,
+    status: "Aktif",
+    createdAt: "2026-01-10",
+  },
+  {
+    id: "kat-4",
+    kode: "KAT-KLS",
+    nama: "Kelistrikan & Aki",
+    deskripsi: "Aki maintenance free, bohlam lampu depan/rem, relay & sekring",
+    jumlahItem: 2,
+    status: "Aktif",
+    createdAt: "2026-01-12",
+  },
+  {
+    id: "kat-5",
+    kode: "KAT-TRS",
+    nama: "Transmisi & Penggerak",
+    deskripsi: "V-belt CVT, kampas kopling set, bearing roda depan/belakang",
+    jumlahItem: 2,
+    status: "Aktif",
+    createdAt: "2026-01-15",
+  },
+  {
+    id: "kat-6",
+    kode: "KAT-FLT",
+    nama: "Filter & Filtrasi",
+    deskripsi: "Filter udara karbu/injeksi dan filter kabin AC mobil",
+    jumlahItem: 2,
+    status: "Aktif",
+    createdAt: "2026-01-15",
+  },
+];
