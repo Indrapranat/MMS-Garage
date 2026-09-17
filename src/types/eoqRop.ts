@@ -18,6 +18,12 @@ export interface EoqRopAnalysis {
   rekomendasiPesanQty: number; // Biasanya sama dengan EOQ jika stok <= ROP
   estimasiBiayaPengadaan: number; // eoq * hargaBeli
   updatedAt: string;
+  eoqSteps?: string;
+  ropSteps?: string;
+  eoqFormula?: string;
+  ropFormula?: string;
+  recommendationNote?: string;
+  statusCode?: string;
 }
 
 export interface RecommendationItem {

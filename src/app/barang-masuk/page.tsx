@@ -51,6 +51,8 @@ export default function BarangMasukPage() {
   });
   const [formErrors, setFormErrors] = useState<Record<string, string>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
+  const [submitSuccess, setSubmitSuccess] = useState<string | null>(null);
 
   const fetchTransactions = async () => {
     try {
@@ -121,6 +123,7 @@ export default function BarangMasukPage() {
       status: "Selesai",
     });
     setFormErrors({});
+    setSubmitError(null);
     setIsCreateOpen(true);
   };
 
@@ -148,6 +151,7 @@ export default function BarangMasukPage() {
     if (!validate()) return;
     try {
       setIsSubmitting(true);
+      setSubmitError(null);
       const prod = products.find((p) => p.id === formData.sparepartId);
       const sup = suppliers.find((s) => s.id === formData.supplierId);
       const totalBiaya = formData.jumlah * formData.hargaBeliSatuan;
@@ -161,13 +165,17 @@ export default function BarangMasukPage() {
       });
 
       setIsCreateOpen(false);
+      setSubmitSuccess("Barang masuk berhasil dicatat ke database dan stok fisik telah bertambah!");
+      setTimeout(() => setSubmitSuccess(null), 5000);
       await fetchTransactions();
-    } catch (err) {
+    } catch (err: any) {
       console.error("Gagal mencatat barang masuk", err);
+      setSubmitError(err.message || "Terjadi kesalahan saat mencatat barang masuk.");
     } finally {
       setIsSubmitting(false);
     }
   };
+
 
   return (
     <AppLayout>
@@ -188,6 +196,13 @@ export default function BarangMasukPage() {
             Catat Barang Masuk
           </Button>
         </div>
+
+        {submitSuccess && (
+          <div className="p-3.5 bg-emerald-50 border border-emerald-300 rounded-xl flex items-center gap-2.5 text-xs text-emerald-900 font-medium animate-in fade-in">
+            <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+            <span>{submitSuccess}</span>
+          </div>
+        )}
 
         {/* 2 Quick Summary Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -311,6 +326,12 @@ export default function BarangMasukPage() {
           maxWidth="xl"
         >
           <form onSubmit={handleCreateSubmit} className="space-y-4">
+            {submitError && (
+              <div className="p-3 bg-rose-50 border border-rose-200 rounded-lg text-xs text-rose-700 flex items-start gap-2">
+                <span className="font-bold">Error:</span>
+                <span>{submitError}</span>
+              </div>
+            )}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <Input
                 label="Nomor Referensi Masuk"

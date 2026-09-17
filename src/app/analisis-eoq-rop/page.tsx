@@ -321,26 +321,70 @@ export default function AnalisisEoqRopPage() {
                 </div>
               </div>
 
+              {/* Box Hasil & Proses Komputasi Matematis Server */}
+              <div className="p-4 bg-slate-900 text-white rounded-xl space-y-3 font-mono text-xs border border-slate-800">
+                <div className="flex items-center justify-between border-b border-slate-800 pb-2">
+                  <span className="font-bold text-blue-400 flex items-center gap-1.5 font-sans">
+                    <Calculator className="w-4 h-4 text-blue-400" />
+                    Proses Substitusi Matematis Server (Transparan & Deterministic)
+                  </span>
+                  <Badge variant="outline" className="text-[10px] text-slate-400 border-slate-700 font-mono">
+                    Backend Engine
+                  </Badge>
+                </div>
+
+                <div className="space-y-2 bg-slate-950/80 p-3 rounded-lg border border-slate-800/80">
+                  <div className="text-amber-300 font-semibold font-sans text-xs">1. Formula Economic Order Quantity (EOQ):</div>
+                  <div className="text-slate-400">{selectedItem.eoqFormula || "EOQ = √((2 × D × S) / H)"}</div>
+                  <div className="text-emerald-400 whitespace-pre-wrap">
+                    {selectedItem.eoqSteps || `EOQ = √((2 × ${selectedItem.demand} × ${formatRupiah(selectedItem.biayaPemesanan)}) / ${formatRupiah(selectedItem.biayaPenyimpanan)}) ≈ ${selectedItem.eoq} unit`}
+                  </div>
+                </div>
+
+                <div className="space-y-2 bg-slate-950/80 p-3 rounded-lg border border-slate-800/80">
+                  <div className="text-amber-300 font-semibold font-sans text-xs">2. Formula Reorder Point (ROP):</div>
+                  <div className="text-slate-400">{selectedItem.ropFormula || "ROP = (d × L) + SS"}</div>
+                  <div className="text-emerald-400 whitespace-pre-wrap">
+                    {selectedItem.ropSteps || `ROP = (${selectedItem.rataRataPenggunaanHari} × ${selectedItem.leadTime}) + ${selectedItem.safetyStock} = ${selectedItem.rop} unit`}
+                  </div>
+                </div>
+              </div>
+
               {/* Box Hasil Server */}
               <div className="p-4 bg-gradient-to-r from-blue-50 to-amber-50 rounded-xl border border-blue-200 space-y-2">
                 <h5 className="text-xs font-bold text-slate-800 uppercase tracking-wider">
                   Hasil Rekomendasi Kontrol Sistem
                 </h5>
-                <div className="grid grid-cols-2 gap-4 pt-1">
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-1">
                   <div>
-                    <span className="text-xs text-blue-700 block font-medium">Optimal Order Qty (EOQ):</span>
-                    <span className="text-2xl font-black text-blue-900">{selectedItem.eoq} Unit</span>
+                    <span className="text-[11px] text-slate-500 block font-medium">Stok Aktual:</span>
+                    <span className="text-lg font-bold text-slate-900">{selectedItem.stokSaatIni} Unit</span>
                   </div>
                   <div>
-                    <span className="text-xs text-amber-800 block font-medium">Reorder Point (ROP):</span>
-                    <span className="text-2xl font-black text-amber-900">{selectedItem.rop} Unit</span>
+                    <span className="text-[11px] text-amber-800 block font-medium">Batas ROP:</span>
+                    <span className="text-lg font-bold text-amber-900">{selectedItem.rop} Unit</span>
+                  </div>
+                  <div>
+                    <span className="text-[11px] text-blue-700 block font-medium">Optimal (EOQ):</span>
+                    <span className="text-lg font-bold text-blue-900">{selectedItem.eoq} Unit</span>
+                  </div>
+                  <div>
+                    <span className="text-[11px] text-slate-600 block font-medium">Status Kontrol:</span>
+                    <span className={`text-xs font-bold px-2 py-1 rounded inline-block mt-0.5 ${
+                      selectedItem.status === "Kritis"
+                        ? "bg-rose-100 text-rose-800"
+                        : selectedItem.status === "Perlu Pemesanan"
+                        ? "bg-amber-100 text-amber-800"
+                        : "bg-emerald-100 text-emerald-800"
+                    }`}>
+                      {selectedItem.status}
+                    </span>
                   </div>
                 </div>
-                <p className="text-xs text-slate-600 pt-2 border-t border-blue-100">
-                  Status saat ini: <strong className="text-slate-900">{selectedItem.stokSaatIni} unit</strong> di gudang.{" "}
-                  {selectedItem.stokSaatIni <= selectedItem.rop
-                    ? "Telah mencapai batas ROP, disarankan segera membuat Purchase Order sejumlah " + selectedItem.eoq + " unit."
-                    : "Masih berada di atas batas ROP, stok terpantau aman."}
+                <p className="text-xs text-slate-700 pt-2 border-t border-blue-100">
+                  {selectedItem.recommendationNote || (selectedItem.stokSaatIni <= selectedItem.rop
+                    ? `Status: PERLU PESAN. Stok saat ini (${selectedItem.stokSaatIni} unit) <= ROP (${selectedItem.rop} unit). Rekomendasi: Pesan ${selectedItem.eoq} unit.`
+                    : `Status: NORMAL. Stok saat ini (${selectedItem.stokSaatIni} unit) > ROP (${selectedItem.rop} unit). Persediaan aman.`)}
                 </p>
               </div>
 

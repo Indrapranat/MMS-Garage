@@ -3,8 +3,8 @@
 // dan arahkan baseURL ke server Laravel (contoh: http://localhost:8000/api/v1)
 
 export const API_CONFIG = {
-  USE_MOCK: true,
-  BASE_URL: process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8000/api/v1",
+  USE_MOCK: false,
+  BASE_URL: process.env.NEXT_PUBLIC_API_BASE_URL || "http://127.0.0.1:8000/api",
   TIMEOUT: 10000,
 };
 
